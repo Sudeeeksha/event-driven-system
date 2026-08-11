@@ -20,18 +20,6 @@ public class KafkaConfig {
     @Value("${kafka.topic.user-requests}")
     private String userRequestsTopic;
 
-    /**
-     * Creates the user-requests topic if it doesn't exist.
-     * 
-     * Topic Configuration:
-     * - partitions: 1 - Single partition for this phase. Can be increased later
-     *               for parallel processing when adding multiple consumers.
-     * - replicationFactor: 1 - Single replica since we have one broker.
-     *                      Should match number of brokers in production.
-     * 
-     * Future Enhancement: Increase partitions when adding multiple consumers
-     * to enable parallel processing and improve throughput.
-     */
     @Bean
     public NewTopic userRequestsTopic() {
         return TopicBuilder.name(userRequestsTopic)

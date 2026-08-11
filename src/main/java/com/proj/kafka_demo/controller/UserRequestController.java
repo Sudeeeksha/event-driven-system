@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
  * Design Decision: Returns HTTP 202 Accepted immediately without waiting for
  * processing. This demonstrates the asynchronous nature of the system.
  * 
- * Future Enhancement: Add request validation, rate limiting, and authentication.
  */
 @RestController
 @RequestMapping("/requests")
@@ -50,11 +49,8 @@ public class UserRequestController {
         try {
             log.info("Received request: {}", userRequest);
             
-            // Publish to Kafka - this is non-blocking
             userRequestProducer.sendUserRequest(userRequest);
-            
-            // Return immediately with HTTP 202 Accepted
-            // This tells the client the request was accepted for processing
+
             return ResponseEntity
                     .status(HttpStatus.ACCEPTED)
                     .body("Request accepted for processing");

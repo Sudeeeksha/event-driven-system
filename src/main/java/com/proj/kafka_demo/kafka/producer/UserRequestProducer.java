@@ -11,14 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * Kafka Producer service for publishing user requests.
- * This service handles sending UserRequest objects to the Kafka topic.
- * 
  * Design Decision: Using String serialization for simplicity in Phase 1.
  * The UserRequest object is converted to JSON string before sending.
- * 
- * Future Enhancement: Use custom serializer (JsonSerializer) for direct
- * object serialization instead of manual JSON conversion.
  */
 @Service
 public class UserRequestProducer {
@@ -39,17 +33,12 @@ public class UserRequestProducer {
      * 
      * @param userRequest The user request to publish
      * @throws JsonProcessingException if JSON serialization fails
-     * 
-     * Design Decision: The method throws JsonProcessingException to handle
-     * serialization errors at the controller level, allowing proper HTTP error responses.
+     *
      */
     public void sendUserRequest(UserRequest userRequest) throws JsonProcessingException {
         // Convert UserRequest object to JSON string
         String jsonMessage = objectMapper.writeValueAsString(userRequest);
-        
-        // Send to Kafka with userId as the key
-        // Using userId as key ensures all requests from the same user go to the same partition
-        // This maintains ordering per user when we add multiple partitions later
+
         kafkaTemplate.send(topic, userRequest.getUserId().toString(), jsonMessage);
         
         log.info("Message sent to Kafka topic: {}", topic);
