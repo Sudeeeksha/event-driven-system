@@ -1,0 +1,38 @@
+{
+	"info": {
+		"name": "Kafka Demo API",
+		"description": "Postman collection for testing Kafka Demo Spring Boot application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Requests",
+			"item": [
+				{
+					"name": "Create User Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"username\": \"testuser\",\n  \"action\": \"create_account\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/requests",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["requests"]
+						},
+						"description": "Creates a new user request and publishes it to Kafka. Returns HTTP 202 Accepted immediately."
+					}
+				}
+			]
+		}
+	]
+}
